@@ -1,0 +1,62 @@
+import React, { useEffect, useRef } from 'react';
+import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
+
+function Portfolio() {
+  const gridRef = useRef(null);
+
+  const imgs = [
+    "https://technext.github.io/kards/images/portfolio/liberty.jpg",
+    "https://technext.github.io/kards/images/portfolio/shutterbug.jpg",
+    "https://technext.github.io/kards/images/portfolio/clouds.jpg",
+    "https://technext.github.io/kards/images/portfolio/beetle.jpg",
+    "https://technext.github.io/kards/images/portfolio/lighthouse.jpg",
+    "https://technext.github.io/kards/images/portfolio/salad.jpg",
+
+  ];
+
+  useEffect(() => {
+    const grid = gridRef.current;
+
+    // Wait for images to load before initializing Masonry
+    imagesLoaded(grid, () => {
+      new Masonry(grid, {
+        itemSelector: '.grid-item',
+        columnWidth: '.grid-sizer',
+        percentPosition: true,
+        gutter: 0,
+      });
+    });
+  }, []);
+
+  return (
+    <div className="px-4">
+      <div className="grid flex flex-wrap p-0 m-0 mx-auto" ref={gridRef} style={{ position: 'relative' }}>
+        {/* Grid sizer defines width of columns */}
+        <div className="grid-sizer" style={{ width: '40%' }}></div>
+
+        {imgs.map((img, index) => (
+          <div
+            key={index}
+            className="grid-item"
+            style={{
+              width: '40%',
+            //   marginBottom: '16px',
+              breakInside: 'avoid',
+            //   height:"100%"
+            }}
+          >
+            <img
+              src={img}
+              alt={`Portfolio ${index}`}
+              className="w-full  rounded-md"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Portfolio;
